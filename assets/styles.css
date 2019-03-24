@@ -1,0 +1,38 @@
+body {
+  display: flex;
+  margin: 0;
+}
+#app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+}
+#header {
+  background-color: oldlace;
+}
+#main-display {
+  flex: 1;
+  flex-direction: column;
+  background-color: aliceblue;
+  display: flex;
+  padding: 1em;
+}
+#input-area {
+  flex: 0;
+  display: flex;
+}
+#input-area > label {
+  margin-right: 0.5em;
+}
+#display-area {
+  flex: 1;
+}
+#footer {
+  background-color: oldlace;
+}

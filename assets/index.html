@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+    <!--script src="https://cdn.jsdelivr.net/npm/vue"></script-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div id="header" class="flex-center">
+        <h2>Data for Cat Mood Prediction</h2>
+      </div>
+      <div id="main-display">
+        <div id="input-area" class="flex-center">
+          <label for="latitude">
+            Latitude:
+            <input
+              id="latitude"
+              name="latitude"
+              @change="formatDecimal"
+              type="number"
+              value="0.0000"
+              step="0.0001"
+            />
+          </label>
+          <label for="longitude">
+            Longitude:
+            <input
+              id="longitude"
+              name="longitude"
+              @change="formatDecimal"
+              type="number"
+              value="0.0000"
+              step="0.0001"
+            />
+          </label>
+          <label for="time-selector">
+            At time:
+            <input id="time-selector" name="time-selector" type="datetime-local" />
+          </label>
+          <button @click="">Update Data</button>
+        </div>
+        <div id="display-area" class="flex-center">
+          <p>{{ message }}</p>
+        </div>
+      </div>
+      <div id="footer" class="flex-center">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://darksky.net/poweredby/"
+          >Powered by DarkSky</a
+        >
+      </div>
+    </div>
+  </body>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        message: 'hello world',
+      },
+      methods: {
+        fetchData: function() {},
+        formatDecimal: function(event) {
+          if (!isNaN(event.target.value)) {
+            event.target.value = parseFloat(event.target.value, 10).toFixed(4);
+          }
+        },
+      },
+    });
+  </script>
+</html>
