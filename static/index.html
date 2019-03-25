@@ -1,6 +1,6 @@
 <html>
   <head>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="static/styles.css" />
     <!--script src="https://cdn.jsdelivr.net/npm/vue"></script-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   </head>
@@ -10,15 +10,21 @@
         <h2>Data for Cat Mood Prediction</h2>
       </div>
       <div id="main-display">
+        <button @click="setLatLong($event, seattleLatLong)" class="preset-button">
+          Seattle: {{ `${seattleLatLong[0]}, ${seattleLatLong[1]}` }}
+        </button>
+        <button @click="setLatLong($event, nycLatLong)" class="preset-button">
+          New York City: {{ `${nycLatLong[0]}, ${nycLatLong[1]}` }}
+        </button>
         <div id="input-area" class="flex-center">
           <label for="latitude">
             Latitude:
             <input
               id="latitude"
               name="latitude"
-              @change="formatDecimal"
+              @change="handleLatLongChange"
               type="number"
-              value="0.0000"
+              v-model="latitude"
               step="0.0001"
             />
           </label>
@@ -27,9 +33,9 @@
             <input
               id="longitude"
               name="longitude"
-              @change="formatDecimal"
+              @change="handleLatLongChange"
               type="number"
-              value="0.0000"
+              v-model="longitude"
               step="0.0001"
             />
           </label>
@@ -37,7 +43,7 @@
             At time:
             <input id="time-selector" name="time-selector" type="datetime-local" />
           </label>
-          <button @click="">Update Data</button>
+          <button @click="fetchData">Update Data</button>
         </div>
         <div id="display-area" class="flex-center">
           <p>{{ message }}</p>
@@ -59,13 +65,26 @@
       el: '#app',
       data: {
         message: 'hello world',
+        latitude: '0.0000',
+        longitude: '0.0000',
+      },
+      created: function() {
+        // set constant variables by convention
+        this.seattleLatLong = ['47.6097', '-122.3331'];
+        this.nycLatLong = ['40.7127', '-74.0059'];
       },
       methods: {
-        fetchData: function() {},
-        formatDecimal: function(event) {
+        setLatLong(e, latLong) {
+          this.latitude = latLong[0];
+          this.longitude = latLong[1];
+        },
+        handleLatLongChange: function(event) {
           if (!isNaN(event.target.value)) {
-            event.target.value = parseFloat(event.target.value, 10).toFixed(4);
+            this[event.target.name] = parseFloat(event.target.value, 10).toFixed(4);
           }
+        },
+        fetchData: function() {
+          console.log('fetch data');
         },
       },
     });

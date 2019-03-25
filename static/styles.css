@@ -23,6 +23,11 @@ body {
   display: flex;
   padding: 1em;
 }
+.preset-button {
+  width: fit-content;
+  align-self: center;
+  margin: 0.2em;
+}
 #input-area {
   flex: 0;
   display: flex;
