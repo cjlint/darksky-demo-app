@@ -84,7 +84,9 @@
           }
         },
         fetchData: function() {
-          console.log('fetch data');
+          fetch('api')
+            .then(console.log)
+            .catch(console.error);
         },
       },
     });

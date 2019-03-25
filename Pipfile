@@ -4,9 +4,13 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pylint = "*"
+black = "==18.9b0"
 
 [packages]
 requests = "*"
+flask = "*"
+requests-cache = "*"
 
 [requires]
 python_version = "3.7"
