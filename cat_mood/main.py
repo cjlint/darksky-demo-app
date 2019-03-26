@@ -3,6 +3,8 @@ from datetime import timedelta
 from flask import Flask, jsonify
 from cat_mood.darkskyclient import DarkSkyClient
 
+# TODO error handlers so that errors appear as json, not html
+
 
 def create_app(config):
     app = Flask(__name__)

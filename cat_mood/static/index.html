@@ -41,12 +41,25 @@
           </label>
           <label for="time-selector">
             At time:
-            <input id="time-selector" name="time-selector" type="datetime-local" />
+            <input
+              @change="handleTimeChange"
+              id="time-selector"
+              name="time-selector"
+              type="datetime-local"
+              v-model="time"
+            />
           </label>
-          <button @click="fetchData">Update Data</button>
+          <button @click="fetchData">Get Data</button>
         </div>
         <div id="display-area" class="flex-center">
-          <p>{{ message }}</p>
+          <div v-if="temperature">
+            <p>Temperature: {{ temperature }} F</p>
+            <p>Moon: {{ moon }}</p>
+          </div>
+          <div v-else style="display: flex; flex-direction: column">
+            <p>Input a latitude, longitude, and time, then press "Get Data"</p>
+            <p>Try one of the preset buttons to select Seattle or NYC</p>
+          </div>
         </div>
       </div>
       <div id="footer" class="flex-center">
@@ -67,6 +80,9 @@
         message: 'hello world',
         latitude: '0.0000',
         longitude: '0.0000',
+        temperature: null,
+        moon: null,
+        time: new Date().toISOString().split('.')[0],
       },
       created: function() {
         // set constant variables by convention
@@ -83,9 +99,21 @@
             this[event.target.name] = parseFloat(event.target.value, 10).toFixed(4);
           }
         },
+        handleTimeChange: function(event) {
+          this.time = event.target.value;
+        },
         fetchData: function() {
-          fetch('api')
-            .then(console.log)
+          const epoch = new Date(this.time).getTime() / 1000;
+          fetch(`data/${this.latitude},${this.longitude},${epoch}`)
+            .then(resp => {
+              resp
+                .json()
+                .then(({ temperature, moon }) => {
+                  this.temperature = temperature;
+                  this.moon = moon;
+                })
+                .catch(console.error);
+            })
             .catch(console.error);
         },
       },
