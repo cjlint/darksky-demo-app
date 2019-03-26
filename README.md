@@ -3,6 +3,7 @@
 This project houses a small web app where you can query temperature and moon phase data using [Dark Sky API](https://darksky.net/poweredby/). This data is specifically very important for predicting cat moods, hence the name!
 
 Requires Python 3 (See `Implementation Comments > Python`)
+
 Frontend web page works best on Google Chrome (datetime picker has convenient default selection tool on Chrome)
 
 ## Build
@@ -20,11 +21,11 @@ Running tests:
 pipenv run python -m pytest
 ```
 
-requests_cache library produces an ugly DeprecationWarning, oh well...
+requests_cache library produces a DeprecationWarning, oh well...
 
 ## Running the Server
 
-Assuming your Dark Sky secret key is in `DARKSKY_KEY`:
+Assuming your Dark Sky secret key is in environment variable `DARKSKY_KEY`:
 
 ```bash
 pip install cat_mood-0.1.0.tar.gz
