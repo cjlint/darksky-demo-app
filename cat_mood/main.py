@@ -1,4 +1,5 @@
 import sys
+import argparse
 from datetime import timedelta
 from flask import Flask, jsonify
 from cat_mood.darkskyclient import DarkSkyClient
@@ -6,16 +7,10 @@ from cat_mood.darkskyclient import DarkSkyClient
 # TODO error handlers so that errors appear as json, not html
 
 
-def create_app(config):
+def create_app(key, backend=None, location=None):
     app = Flask(__name__)
     # read config, create darksky client object
-    app.config.from_pyfile(config)
-    darksky = DarkSkyClient(
-        app.config["DARKSKY_KEY"],
-        cache_backend=app.config.get("CACHE_BACKEND"),
-        cache_location=app.config.get("CACHE_LOCATION"),
-        logger=app.logger,
-    )
+    darksky = DarkSkyClient(key, cache_backend=backend, logger=app.logger)
 
     @app.route("/")
     def index():
@@ -43,11 +38,27 @@ def create_app(config):
     return app
 
 
-if __name__ == "__main__":
-    try:
-        config = sys.argv[1]
-    except:
-        # default
-        config = "config.py"
-    app = create_app(config)
+def main():
+    parser = argparse.ArgumentParser(description="Start a cat-mood instance")
+    parser.add_argument("darksky_key", help="Secret key for darksky api")
+    parser.add_argument(
+        "--cache-backend",
+        dest="backend",
+        default=None,
+        choices=["sqlite", "memory", "redis", "mongodb"],
+        help="Backend caching strategy",
+    )
+    parser.add_argument(
+        "--cache-location",
+        dest="location",
+        default=None,
+        help="Location to store cache data",
+    )
+    args = parser.parse_args()
+
+    app = create_app(args.darksky_key, args.backend)
     app.run(host="0.0.0.0", debug=True)
+
+
+if __name__ == "__main__":
+    main()

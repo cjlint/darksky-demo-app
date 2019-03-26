@@ -6,12 +6,22 @@ import requests
 from cat_mood import main
 
 
+# This is an actual DarkSky key, obviously there is no billing attached.
+#
+# This is obviously not ideal, because it means our tests rely on whether or not darksky is up,
+# and it means we need to stay under 1000 requests per day when testing.
+#
+# A better way to test a "real" api call would be to make a mock darksky api with whatever
+# features we need, and test against that instead.
+#
+# However, this is super easy for now
+DARKSKY_KEY = "8e18f2297c727554623f3b6cca64358b"
+
 # adapted from http://flask.pocoo.org/docs/1.0/testing/
 @pytest.fixture
 def client():
-    app = main.create_app(os.path.realpath("tests/config.py"))
     with tempfile.TemporaryDirectory() as tmpdirname:
-        app.config["CACHE_LOCATION"] = tmpdirname
+        app = main.create_app(DARKSKY_KEY, location=tmpdirname)
         app.config["TESTING"] = True
         client = app.test_client()
         yield client
