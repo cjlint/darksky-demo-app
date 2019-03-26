@@ -4,7 +4,7 @@ from datetime import timedelta
 from flask import Flask, jsonify
 from cat_mood.darkskyclient import DarkSkyClient
 
-# TODO error handlers so that errors appear as json, not html
+# TODO error handler so that 500 errors appear as json, not html (not a huge issue for demo project)
 
 
 def create_app(key, backend=None, location=None):
@@ -30,7 +30,7 @@ def create_app(key, backend=None, location=None):
             msg = f"Invalid arguments: {parameters} Reason: {e}"
             app.logger.error(msg)
             response = jsonify({"error": msg})
-            response.status_code = 422
+            response.status_code = 400
             return response
         temperature, moon = darksky.get(latitude, longitude, time)
         return jsonify({"temperature": temperature, "moon": moon})
