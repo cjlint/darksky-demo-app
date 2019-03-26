@@ -6,6 +6,8 @@ verify_ssl = true
 [dev-packages]
 pylint = "*"
 black = "==18.9b0"
+pytest = "*"
+mock = "*"
 
 [packages]
 requests = "*"
