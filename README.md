@@ -3,6 +3,7 @@
 This project houses a small web app where you can query temperature and moon phase data using [Dark Sky API](https://darksky.net/poweredby/). This data is specifically very important for predicting cat moods, hence the name!
 
 Requires Python 3 (See `Implementation Comments > Python`)
+Frontend web page works best on Google Chrome (datetime picker has convenient default selection tool on Chrome)
 
 ## Build
 
