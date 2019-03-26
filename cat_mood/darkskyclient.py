@@ -23,7 +23,8 @@ class DarkSkyClient:
         if cache_backend:
             kwargs["backend"] = cache_backend
         if cache_location:
-            kwargs["location"] = cache_location
+            # https://github.com/reclosedev/requests-cache/issues/94
+            kwargs["cache_name"] = cache_location
         self._cache_session = requests_cache.CachedSession(**kwargs)
         self._logger = logger
 

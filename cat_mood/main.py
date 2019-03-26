@@ -10,7 +10,9 @@ from cat_mood.darkskyclient import DarkSkyClient
 def create_app(key, backend=None, location=None):
     app = Flask(__name__)
     # read config, create darksky client object
-    darksky = DarkSkyClient(key, cache_backend=backend, logger=app.logger)
+    darksky = DarkSkyClient(
+        key, cache_backend=backend, cache_location=location, logger=app.logger
+    )
 
     @app.route("/")
     def index():
@@ -51,12 +53,12 @@ def main():
     parser.add_argument(
         "--cache-location",
         dest="location",
-        default=None,
+        default="/tmp/cache",
         help="Location to store cache data",
     )
     args = parser.parse_args()
 
-    app = create_app(args.darksky_key, args.backend)
+    app = create_app(args.darksky_key, args.backend, args.location)
     app.run(host="0.0.0.0", debug=True)
 
 

@@ -85,3 +85,5 @@ def test_bad_params_too_many_commas(client):
 #        assert client.get("/data/42.3601,-71.0589,155357669").ok
 #        assert client.get("/data/42.3601,-71.0589,155357669").ok
 #        real_get_mock.assert_called_once()
+
+# TODO another relevant thing to test would be the command line interface
