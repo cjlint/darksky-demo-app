@@ -1,17 +1,18 @@
 import sys
 from datetime import timedelta
 from flask import Flask, jsonify
-from darkskyclient import DarkSkyClient
+from cat_mood.darkskyclient import DarkSkyClient
 
 
 def create_app(config):
     app = Flask(__name__)
     # read config, create darksky client object
-    app.config.from_pyfile(config, silent=True)
+    app.config.from_pyfile(config)
     darksky = DarkSkyClient(
         app.config["DARKSKY_KEY"],
-        app.config.get("CACHE_LIFETIME", timedelta(days=3)),
-        app.logger,
+        cache_backend=app.config.get("CACHE_BACKEND"),
+        cache_location=app.config.get("CACHE_LOCATION"),
+        logger=app.logger,
     )
 
     @app.route("/")
@@ -34,8 +35,8 @@ def create_app(config):
             response = jsonify({"error": msg})
             response.status_code = 422
             return response
-        # get_temp_and_moon might raise an error, in which case this endpoint will correctly return a 500 error
-        return darksky.get_temp_and_moon(latitude, longitude, time)
+        temperature, moon = darksky.get(latitude, longitude, time)
+        return jsonify({"temperature": temperature, "moon": moon})
 
     return app
 

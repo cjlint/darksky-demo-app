@@ -15,16 +15,16 @@ class City(Enum):
 # (python doesn't have interfaces like Go but they could still inherit from a common base class)
 class DarkSkyClient:
     def __init__(
-        self,
-        secret_key,
-        cache_lifetime=timedelta(hours=1),
-        logger=None,
-        cache_backend=None,
+        self, secret_key, cache_backend=None, cache_location=None, logger=None
     ):
         self._secret_key = secret_key
-        self._cache_session = requests_cache.CachedSession(
-            backend=cache_backend, expire_after=cache_lifetime
-        )
+        kwargs = {}
+        # don't overwrite these defaults unless present
+        if cache_backend:
+            kwargs["backend"] = cache_backend
+        if cache_location:
+            kwargs["location"] = cache_location
+        self._cache_session = requests_cache.CachedSession(**kwargs)
         self._logger = logger
 
     def get(self, latitude: float, longitude: float, time: int) -> (float, float):
