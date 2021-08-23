@@ -4,15 +4,12 @@ import requests_cache
 from datetime import timedelta
 
 
-# Would be more appropriate in another file if we wanted to introduce UncleIkesClient
 class City(Enum):
     SEATTLE = ("47.6097", "-122.3331")
     NYC = ("40.7127", "-74.0059")
 
 
 # DarkSkyClient class allows us to set secret_key once in constructor.
-# It also sets an example for the creation of a companion class (UncleIkesClient)
-# (python doesn't have interfaces like Go but they could still inherit from a common base class)
 class DarkSkyClient:
     def __init__(
         self, secret_key, cache_backend=None, cache_location=None, logger=None
